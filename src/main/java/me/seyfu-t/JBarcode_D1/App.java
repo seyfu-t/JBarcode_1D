@@ -1,4 +1,4 @@
-package me.seyfu-t.JBarcode_D1;
+package me.seyfu_t.JBarcode_D1;
 
 /**
  * Hello world!
