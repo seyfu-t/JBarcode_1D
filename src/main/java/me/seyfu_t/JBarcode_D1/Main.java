@@ -2,7 +2,6 @@ package me.seyfu_t.JBarcode_D1;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -25,7 +24,7 @@ public class Main {
         OpenCV.loadLocally();
     }
 
-    private static final Logger log = Logger.getLogger(Main.class.getName());
+    // private static final Logger log = Logger.getLogger(Main.class.getName());
     public static final String PROGRAM_NAME = Main.class.getPackageName();
 
     public static void main(String[] args) {
