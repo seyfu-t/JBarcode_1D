@@ -24,7 +24,7 @@ public class Main {
     static {
         OpenCV.loadLocally();
     }
-    static Logger logger = Logger.getLogger(Main.class.getName());
+    private static final Logger log = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
         // Command-line argument parsing
@@ -36,7 +36,7 @@ public class Main {
         }
 
         String fileName = arguments.get("file");
-        logger.info(fileName);
+        log.info(fileName);
 
         // Create instances of the processors
         Gallo gallo = new Gallo();
