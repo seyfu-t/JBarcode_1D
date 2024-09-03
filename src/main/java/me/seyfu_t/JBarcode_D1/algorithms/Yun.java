@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1;
+package me.seyfu_t.JBarcode_D1.algorithms;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +11,12 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+
+import me.seyfu_t.JBarcode_D1.modell.YunCandidate;
+import me.seyfu_t.JBarcode_D1.modell.YunLabel;
+import me.seyfu_t.JBarcode_D1.modell.YunOrientation;
+import me.seyfu_t.JBarcode_D1.modell.YunParams;
+import me.seyfu_t.JBarcode_D1.utils.MatUtils;
 
 public class Yun {
 
@@ -299,7 +305,7 @@ public class Yun {
                             int height = rect.height - rect.y + 1;
                             if (width > 15 && height > 15) {
                                 YunLabel val = new YunLabel();
-                                val.roi = new Rect(rect.x, rect.y, width, height);
+                                val.setRoi(new Rect(rect.x, rect.y, width, height));
                                 int max_val = 0;
                                 int ori = 255;
                                 for (int i = 0; i < NUM_ANG; i++) {
@@ -308,7 +314,7 @@ public class Yun {
                                         ori = i;
                                     }
                                 }
-                                val.maxOrientation = ori;
+                                val.setMaxOrientation(ori);
                                 if (Vmap.get(ori).isStrong()) {
                                     result.add(val);
                                 }

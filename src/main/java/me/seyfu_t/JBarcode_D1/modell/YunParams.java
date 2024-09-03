@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1;
+package me.seyfu_t.JBarcode_D1.modell;
 
 public class YunParams {
     private int magT;

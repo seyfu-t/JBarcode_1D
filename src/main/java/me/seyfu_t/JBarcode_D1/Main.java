@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -12,7 +13,19 @@ import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import me.seyfu_t.JBarcode_D1.algorithms.Gallo;
+import me.seyfu_t.JBarcode_D1.algorithms.Soros;
+import me.seyfu_t.JBarcode_D1.algorithms.Yun;
+import me.seyfu_t.JBarcode_D1.modell.YunCandidate;
+import nu.pattern.OpenCV;
+
 public class Main {
+
+    static {
+        OpenCV.loadLocally();
+    }
+    static Logger logger = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
         // Command-line argument parsing
         Map<String, String> arguments = parseArguments(args);
@@ -23,6 +36,7 @@ public class Main {
         }
 
         String fileName = arguments.get("file");
+        logger.info(fileName);
 
         // Create instances of the processors
         Gallo gallo = new Gallo();

@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1;
+package me.seyfu_t.JBarcode_D1.algorithms;
 
 import java.util.Optional;
 
@@ -8,6 +8,8 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+
+import me.seyfu_t.JBarcode_D1.utils.MatUtils;
 
 public class Gallo {
 
