@@ -21,13 +21,13 @@ public class Soros {
     public Optional<Rect> process(Mat graySrc, boolean is1D, int winSize) {
         Mat saliencyMap = saliencyMapByAndoMatrix(graySrc, is1D);
 
-        Mat iMap = calcIntegralImage(saliencyMap);
+        Mat integralMap = calcIntegralImage(saliencyMap);
         
-        Mat sMap = new Mat(saliencyMap.size(), CvType.CV_8UC1);
-        Point maxPoint = findMaxPointWithSmooth(iMap, sMap, winSize);
+        Mat smoothMap = new Mat(saliencyMap.size(), CvType.CV_8UC1);
+        Point maxPoint = findMaxPointWithSmooth(integralMap, smoothMap, winSize);
 
-        Mat bMap = new Mat(sMap.size(), CvType.CV_8UC1);
-        Imgproc.threshold(sMap, bMap, 50, 255, Imgproc.THRESH_OTSU);
+        Mat bMap = new Mat(smoothMap.size(), CvType.CV_8UC1);
+        Imgproc.threshold(smoothMap, bMap, 50, 255, Imgproc.THRESH_OTSU);
 
         Rect result = boxDetection(saliencyMap, maxPoint);
         return Optional.of(result);
