@@ -26,8 +26,8 @@ public class Soros {
         Mat smoothMap = new Mat(saliencyMap.size(), CvType.CV_8UC1);
         Point maxPoint = findMaxPointWithSmooth(integralMap, smoothMap, winSize);
 
-        Mat bMap = new Mat(smoothMap.size(), CvType.CV_8UC1);
-        Imgproc.threshold(smoothMap, bMap, 50, 255, Imgproc.THRESH_OTSU);
+        Mat binaryMap = new Mat(smoothMap.size(), CvType.CV_8UC1);
+        Imgproc.threshold(smoothMap, binaryMap, 50, 255, Imgproc.THRESH_OTSU);
 
         Rect result = boxDetection(saliencyMap, maxPoint);
         return Optional.of(result);
