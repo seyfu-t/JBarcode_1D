@@ -24,7 +24,7 @@ public class Soros {
         Mat saliencyMap = saliencyMapByAndoMatrix(graySrc, is1D);
 
         Mat integralMap = MatUtils.calcIntegralImage(saliencyMap);
-        
+
         Mat smoothMap = new Mat(saliencyMap.size(), CvType.CV_8UC1);
         Point maxPoint = MatUtils.findMaxPointWithSmooth(integralMap, smoothMap, winSize);
 
@@ -39,58 +39,72 @@ public class Soros {
         Size imgSize = src.size();
         Mat result = new Mat(imgSize, CvType.CV_8UC1);
 
-        int size = (int) (imgSize.width * imgSize.height);
-        double[] Ixx = new double[size], Ixy = new double[size], Iyy = new double[size], Cxx = new double[size],
-                Cxy = new double[size], Cyy = new double[size];
+        int width = (int) imgSize.width;
+        int height = (int) imgSize.height;
+        int size = width * height;
+
+        double[] Ixx = new double[size];
+        double[] Ixy = new double[size];
+        double[] Iyy = new double[size];
+        double[] Cxx = new double[size];
+        double[] Cxy = new double[size];
+        double[] Cyy = new double[size];
 
         // edge by sobel
-        for (int h = 1; h < imgSize.height - 1; h++) {
-            for (int w = 1; w < imgSize.width - 1; w++) {
-                double dx = src.get(h - 1, w - 1)[0] + 2.0f * src.get(h, w - 1)[0] + src.get(h + 1, w - 1)[0]
-                        - src.get(h - 1, w + 1)[0] - 2.0f * src.get(h, w + 1)[0] - src.get(h + 1, w + 1)[0];
+        for (int h = 1; h < height - 1; h++) {
+            for (int w = 1; w < width - 1; w++) {
+                int index = h * width + w;
 
-                double dy = src.get(h - 1, w - 1)[0] + 2.0f * src.get(h - 1, w)[0] + src.get(h - 1, w + 1)[0] -
-                        src.get(h + 1, w - 1)[0] - 2.0f * src.get(h + 1, w)[0] - src.get(h + 1, w + 1)[0];
+                double dx = src.get(h - 1, w - 1)[0] + 2.0 * src.get(h, w - 1)[0] + src.get(h + 1, w - 1)[0]
+                        - src.get(h - 1, w + 1)[0] - 2.0 * src.get(h, w + 1)[0] - src.get(h + 1, w + 1)[0];
 
-                Ixx[(int) (h * imgSize.width + w)] = dx * dx;
-                Ixy[(int) (h * imgSize.width + w)] = dx * dy;
-                Iyy[(int) (h * imgSize.width + w)] = dy * dy;
+                double dy = src.get(h - 1, w - 1)[0] + 2.0 * src.get(h - 1, w)[0] + src.get(h - 1, w + 1)[0]
+                        - src.get(h + 1, w - 1)[0] - 2.0 * src.get(h + 1, w)[0] - src.get(h + 1, w + 1)[0];
+
+                Ixx[index] = dx * dx;
+                Ixy[index] = dx * dy;
+                Iyy[index] = dy * dy;
             }
         }
 
         // apply gaussian window function
-        for (int h = 1; h < imgSize.height - 1; h++) {
-            for (int w = 1; w < imgSize.width - 1; w++) {
+        for (int h = 1; h < height - 1; h++) {
+            for (int w = 1; w < width - 1; w++) {
+                int index = h * width + w;
                 double C1 = 0;
                 double C2 = 0;
                 double C3 = 0;
 
                 for (int m = 0; m < 7; m++) {
                     int s = h + m - 4;
-                    if (s < 0)
+                    if (s < 0 || s >= height)
                         continue;
                     for (int n = 0; n < 7; n++) {
                         int k = w + n - 4;
-                        if (k < 0)
+                        if (k < 0 || k >= width)
                             continue;
-                        C1 += Ixx[(int) (s * imgSize.width + k)] * gmask[m][n];
-                        C2 += Ixy[(int) (s * imgSize.width + k)] * gmask[m][n];
-                        C3 += Iyy[(int) (s * imgSize.width + k)] * gmask[m][n];
+                        int innerIndex = s * width + k;
+
+                        C1 += Ixx[innerIndex] * gmask[m][n];
+                        C2 += Ixy[innerIndex] * gmask[m][n];
+                        C3 += Iyy[innerIndex] * gmask[m][n];
                     }
                 }
 
-                Cxx[(int) (h * imgSize.width + w)] = C1;
-                Cxy[(int) (h * imgSize.width + w)] = C2;
-                Cyy[(int) (h * imgSize.width + w)] = C3;
+                Cxx[index] = C1;
+                Cxy[index] = C2;
+                Cyy[index] = C3;
             }
         }
 
         // edge or corner map
-        for (int h = 1; h < imgSize.height - 1; h++) {
-            for (int w = 1; w < imgSize.width - 1; w++) {
-                double Txx = Cxx[(int) (h * imgSize.width + w)];
-                double Txy = Cxy[(int) (h * imgSize.width + w)];
-                double Tyy = Cyy[(int) (h * imgSize.width + w)];
+        for (int h = 1; h < height - 1; h++) {
+            for (int w = 1; w < width - 1; w++) {
+                int index = h * width + w;
+
+                double Txx = Cxx[index];
+                double Txy = Cxy[index];
+                double Tyy = Cyy[index];
 
                 double m = 0;
                 if (is1D) {
@@ -100,7 +114,6 @@ public class Soros {
                 }
 
                 m *= 255.0;
-
                 result.put(h, w, (m > 255) ? 255 : m);
             }
         }
