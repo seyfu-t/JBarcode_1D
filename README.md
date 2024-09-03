@@ -19,17 +19,7 @@ This project is a Java reimplementation and extension of [@iyyun](https://github
 
 ## Installation
 
-### Maven
 
-To include JBarcode_D1 in your Maven project, add the following dependency to your `pom.xml`:
-
-```xml
-<dependency>
-    <groupId>me.seyfu_t</groupId>
-    <artifactId>JBarcode_D1</artifactId>
-    <version>1.0-SNAPSHOT</version>
-</dependency>
-```
 
 ### Command Line Interface (CLI)
 
