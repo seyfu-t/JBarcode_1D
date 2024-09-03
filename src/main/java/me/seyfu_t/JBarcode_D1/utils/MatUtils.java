@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1;
+package me.seyfu_t.JBarcode_D1.utils;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -8,13 +8,13 @@ import org.opencv.imgproc.Imgproc;
 
 public class MatUtils {
 
-    static Mat calcIntegralImage(Mat src) {
+    public static Mat calcIntegralImage(Mat src) {
         Mat integralImage = new Mat();
         Imgproc.integral(src, integralImage);
         return integralImage;
     }
 
-    static Rect boxDetection(Mat src, Point cp) {
+    public static Rect boxDetection(Mat src, Point cp) {
         Rect result = new Rect(0, 0, 0, 0);
         Size imgSize = src.size();
 
@@ -53,7 +53,7 @@ public class MatUtils {
         return result;
     }
 
-    static Point findMaxPointWithSmooth(Mat src, Mat smoothMap, int winSize) {
+    public static Point findMaxPointWithSmooth(Mat src, Mat smoothMap, int winSize) {
         Size imgSize = src.size();
         Point maxPoint = new Point(0, 0);
 

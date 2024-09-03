@@ -1,10 +1,10 @@
-package me.seyfu_t.JBarcode_D1;
+package me.seyfu_t.JBarcode_D1.modell;
 
 import org.opencv.core.Rect;
 
-class YunLabel {
-    public Rect roi;
-    public int maxOrientation;
+public class YunLabel {
+    private Rect roi;
+    private int maxOrientation;
 
     public int getMaxOrientation() {
         return maxOrientation;
