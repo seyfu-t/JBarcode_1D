@@ -58,7 +58,7 @@ public class Yun {
 
         Mat orientationMap = new Mat(imgSize, CvType.CV_8UC1);
 
-        for (int i = 0; i > NUM_ANG; i++)
+        for (int i = 0; i < NUM_ANG; i++)
             vMap.add(new YunOrientation());
 
         for (int h = 1; h < imgSize.height - 1; h++) {
