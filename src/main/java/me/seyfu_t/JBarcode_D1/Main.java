@@ -33,7 +33,7 @@ public class Main {
         CLIOptions cliOptions = CLIHandling.parseArguments(args);
 
         String fileName = cliOptions.getFilePath();
-        log.info("File: "+fileName);
+        // log.info("File: "+fileName);
 
         // Create instances of the processors
         Gallo gallo = new Gallo();
