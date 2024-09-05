@@ -13,6 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>22</maven.compiler.source>
     <maven.compiler.target>22</maven.compiler.target>
+    <main.class>me.seyfu_t.JBarcode_D1.JBarcode_D1</main.class>
   </properties>
 
   <repositories>
@@ -80,7 +81,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>me.seyfu_t.JBarcode_D1.Main</mainClass>
+              <mainClass>${main.class}</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -90,7 +91,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <mainClass>me.seyfu_t.JBarcode_D1.Main</mainClass>
+          <mainClass>${main.class}</mainClass>
         </configuration>
       </plugin>
       <plugin>
@@ -103,7 +104,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>me.seyfu_t.JBarcode_D1.Main</mainClass>
+              <mainClass>${main.class}</mainClass>
             </manifest>
           </archive>
         </configuration>
