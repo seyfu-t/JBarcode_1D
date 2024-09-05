@@ -14,6 +14,10 @@ import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import me.seyfu_t.JBarcode_D1.algorithms.Gallo;
 import me.seyfu_t.JBarcode_D1.algorithms.Soros;
 import me.seyfu_t.JBarcode_D1.algorithms.Yun;
@@ -32,7 +36,7 @@ public class JBarcode_D1 {
     public static final String PROGRAM_NAME = JBarcode_D1.class.getPackageName();
 
     // I don't know what this constant really does
-    private static final int WIN_SIZE = 20; 
+    private static final int WIN_SIZE = 20;
 
     private static final Logger log = Logger.getLogger(JBarcode_D1.class.getName());
 
@@ -43,7 +47,7 @@ public class JBarcode_D1 {
         String fileName = cliOptions.getFilePath();
 
         File imgFile = new File(fileName);
-        if(!imgFile.exists()){
+        if (!imgFile.exists()) {
             log.log(Level.SEVERE, "File does not seem to exist.");
             System.exit(1);
         }
@@ -57,12 +61,26 @@ public class JBarcode_D1 {
         // Convert to grayscale
         Mat frameGray = matToGrayscaleMat(frame);
 
-        
         Optional<Rect> galloRect = calcRectFromMatWithGallo(frameGray);
         Optional<Rect> sorosRect = calcRectFromMatWithSoros(frameGray);
         List<YunCandidate> yunCandidatesList = calcYunCandidatesFromMat(frameGray);
 
-        
+        String outputFormat = cliOptions.getOutputFormat();
+        if (!outputFormat.isEmpty()) {
+            switch (outputFormat) {
+                case "json":
+                case "csv":
+                case "text":
+                    printData(galloRect, sorosRect, yunCandidatesList, outputFormat);
+                    break;
+                default:
+                    log.log(Level.WARNING, "Unsupported outformat: " + outputFormat);
+                    log.log(Level.WARNING, "Defaulting to plain text");
+                    printData(galloRect, sorosRect, yunCandidatesList, "text");
+                    break;
+            }
+        }
+
         if (cliOptions.getPreviewStatus()) { // show the actual image with rectangles drawn
             Mat resultFrame = frame.clone();
 
@@ -80,6 +98,113 @@ public class JBarcode_D1 {
             HighGui.destroyAllWindows();
         }
 
+    }
+
+    public static void printData(Optional<Rect> galloRect, Optional<Rect> sorosRect, List<YunCandidate> yunCandidates,
+            String type) {
+        switch (type) {
+            case "csv":
+                System.out.println(generateCSV(galloRect, sorosRect, yunCandidates));
+                break;
+            case "text":
+                System.out.println(generateTEXT(galloRect, sorosRect, yunCandidates));
+                break;
+            case "json":
+                System.out.println(generateJSON(galloRect, sorosRect, yunCandidates));
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public static String generateCSV(Optional<Rect> galloRect, Optional<Rect> sorosRect,
+            List<YunCandidate> yunCandidates) {
+        StringBuilder csv = new StringBuilder();
+
+        csv.append("type,x,y,width,height,orientation\n");
+
+        if (galloRect.isPresent())
+            csv.append(rectToCSV("gallo", galloRect.get())).append(",\n");
+        if (sorosRect.isPresent())
+            csv.append(rectToCSV("soros", sorosRect.get())).append(",\n");
+
+        for (YunCandidate cand : yunCandidates) {
+            if (cand.isBarcode()) {
+                csv.append(rectToCSV("yun", cand.getRoi())).append(cand.getOrientation()).append("\n");
+            }
+        }
+
+        return csv.toString();
+    }
+
+    public static String rectToCSV(String type, Rect rect) {
+        return String.format("%s,%d,%d,%d,%d", type, rect.x, rect.y, rect.width, rect.height);
+    }
+
+    public static String generateJSON(Optional<Rect> galloRect, Optional<Rect> sorosRect,
+            List<YunCandidate> yunCandidates) {
+        JsonObject jsonObject = new JsonObject();
+
+        galloRect.ifPresent(rect -> jsonObject.add("gallos", rectToJSON(rect)));
+        sorosRect.ifPresent(rect -> jsonObject.add("soros", rectToJSON(rect)));
+
+        if (!yunCandidates.isEmpty()) {
+            JsonArray yunArray = new JsonArray();
+            for (YunCandidate cand : yunCandidates) {
+                if (cand.isBarcode()) {
+                    JsonObject yunObject = new JsonObject();
+
+                    yunObject.addProperty("x", cand.getRoi().x);
+                    yunObject.addProperty("y", cand.getRoi().y);
+                    yunObject.addProperty("width", cand.getRoi().width);
+                    yunObject.addProperty("height", cand.getRoi().height);
+                    yunObject.addProperty("orientation", cand.getOrientation());
+
+                    yunArray.add(yunObject);
+                }
+            }
+            jsonObject.add("yun", yunArray);
+        }
+
+        return new Gson().toJson(jsonObject);
+    }
+
+    public static JsonObject rectToJSON(Rect rect) {
+        JsonObject jsonRect = new JsonObject();
+
+        jsonRect.addProperty("x", rect.x);
+        jsonRect.addProperty("y", rect.y);
+        jsonRect.addProperty("width", rect.width);
+        jsonRect.addProperty("height", rect.height);
+
+        return jsonRect;
+    }
+
+    public static String generateTEXT(Optional<Rect> galloRect, Optional<Rect> sorosRect,
+            List<YunCandidate> yunCandidates) {
+        StringBuilder text = new StringBuilder();
+
+        if (galloRect.isPresent())
+            text.append("Gallo Rectangle:\n")
+                    .append(rectToTEXT(galloRect.get())).append("\n");
+        if (sorosRect.isPresent())
+            text.append("Soros Rectangle:\n")
+                    .append(rectToTEXT(sorosRect.get())).append("\n");
+
+        for (YunCandidate cand : yunCandidates) {
+            text.append("Yun Candidates:\n");
+            if (cand.isBarcode()) {
+                text.append(rectToTEXT(cand.getRoi())).append(", Orientation: ").append(cand.getOrientation())
+                        .append("\n");
+            }
+        }
+
+        return text.toString();
+    }
+
+    public static String rectToTEXT(Rect rect) {
+        return String.format("X: %d, Y: %d, Width: %d, Height: %d", rect.x, rect.y, rect.width, rect.height);
     }
 
     public static List<YunCandidate> calcYunCandidatesFromFile(File file) {
