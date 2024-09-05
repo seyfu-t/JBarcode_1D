@@ -4,6 +4,7 @@ public class CLIOptions {
     private String filePath;
     private boolean preview;
     private boolean help;
+    private String outputFormat;
 
     public String getFilePath() {
         return filePath;
@@ -17,6 +18,10 @@ public class CLIOptions {
         return help;
     }
 
+    public String getOutputFormat() {
+        return outputFormat;
+    }
+
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
@@ -25,4 +30,7 @@ public class CLIOptions {
         this.preview = preview;
     }
 
+    public void setOutputFormat(String outputFormat) {
+        this.outputFormat = outputFormat;
+    }
 }

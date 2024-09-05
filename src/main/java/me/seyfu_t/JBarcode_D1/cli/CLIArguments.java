@@ -1,9 +1,10 @@
 package me.seyfu_t.JBarcode_D1.cli;
 
 public enum CLIArguments {
-    Preview("p", "preview", "Opens up a window showing a preview of the detection"),
-    File("f", "file", "Path to the image file"),
-    Help("h","help","See this help page")
+    PREVIEW("p", "preview", "Opens up a window showing a preview of the detection"),
+    FILE("f", "file", "Path to the image file"),
+    HELP("h","help","See this help page"),
+    OUTPUT_FORMAT("o","output","Format in which the data shall be output. [csv/json/text]"),
     ;
 
     private final String shortArg;
