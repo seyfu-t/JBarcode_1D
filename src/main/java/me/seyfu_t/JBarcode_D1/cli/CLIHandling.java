@@ -25,7 +25,6 @@ public class CLIHandling {
         CLIArguments helpArg = CLIArguments.HELP;
         CLIArguments outputArg = CLIArguments.OUTPUT_FORMAT;
 
-
         opts.addOption(previewArg.getShortArg(), previewArg.getLongArg(), false, previewArg.getDescription());
         opts.addOption(filePathArg.getShortArg(), filePathArg.getLongArg(), true, filePathArg.getDescription());
         opts.addOption(helpArg.getShortArg(), helpArg.getLongArg(), false, helpArg.getDescription());
@@ -37,7 +36,7 @@ public class CLIHandling {
         try {
             CommandLine cmdLine = parser.parse(opts, args);
 
-            if(cmdLine.hasOption(helpArg.getShortArg())){
+            if (cmdLine.hasOption(helpArg.getShortArg())) {
                 new HelpFormatter().printHelp(JBarcode_D1.PROGRAM_NAME, opts);
                 System.exit(0);
             }
@@ -54,16 +53,23 @@ public class CLIHandling {
                 System.exit(1);
             }
 
-            if(!cmdLine.hasOption(previewArg.getShortArg()) && !cmdLine.hasOption(outputArg.getShortArg())){
-                log.log(Level.SEVERE, "Neither output format was specified, nor was a preview wanted. Use --output <format> to specify the format or -p for a preview");
+            if (!cmdLine.hasOption(previewArg.getShortArg()) && !cmdLine.hasOption(outputArg.getShortArg())) {
+                log.log(Level.SEVERE,
+                        "Neither output format was specified, nor was a preview wanted. Use --output <format> to specify the format or -p for a preview");
+                System.exit(1);
+            }
+
+            String outputFormat = cmdLine.hasOption(outputArg.getShortArg())
+                    ? (CLIOutputFormats.isValidFormat(cmdLine.getOptionValue(outputArg.getLongArg()))
+                            ? cmdLine.getOptionValue(outputArg.getLongArg())
+                            : null)
+                    : "";
+            if(outputFormat == null){
+                log.log(Level.SEVERE, "Invalid format");
                 System.exit(1);
             }
             
-            if(cmdLine.hasOption(outputArg.getShortArg()))
-                cliOptions.setOutputFormat(cmdLine.getOptionValue(outputArg.getLongArg()));
-            else
-                cliOptions.setOutputFormat("");
-
+            cliOptions.setOutputFormat(outputFormat);
             cliOptions.setFilePath(filePath);
             cliOptions.setPreviewStatus(cmdLine.hasOption(previewArg.getShortArg()));
 
