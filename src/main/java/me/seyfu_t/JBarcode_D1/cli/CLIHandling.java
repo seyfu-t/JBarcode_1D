@@ -20,13 +20,16 @@ public class CLIHandling {
     public static CLIOptions parseArguments(String[] args) {
         Options opts = new Options();
 
-        CLIArguments previewArg = CLIArguments.Preview;
-        CLIArguments filePathArg = CLIArguments.File;
-        CLIArguments helpArg = CLIArguments.Help;
+        CLIArguments previewArg = CLIArguments.PREVIEW;
+        CLIArguments filePathArg = CLIArguments.FILE;
+        CLIArguments helpArg = CLIArguments.HELP;
+        CLIArguments outputArg = CLIArguments.OUTPUT_FORMAT;
+
 
         opts.addOption(previewArg.getShortArg(), previewArg.getLongArg(), false, previewArg.getDescription());
         opts.addOption(filePathArg.getShortArg(), filePathArg.getLongArg(), true, filePathArg.getDescription());
         opts.addOption(helpArg.getShortArg(), helpArg.getLongArg(), false, helpArg.getDescription());
+        opts.addOption(outputArg.getShortArg(), outputArg.getLongArg(), true, outputArg.getDescription());
 
         CommandLineParser parser = new DefaultParser();
         CLIOptions cliOptions = new CLIOptions();
@@ -50,6 +53,16 @@ public class CLIHandling {
                 log.log(Level.SEVERE, "File could not be found. Make sure the file exists. Maybe a permission issue?");
                 System.exit(1);
             }
+
+            if(!cmdLine.hasOption(previewArg.getShortArg()) && !cmdLine.hasOption(outputArg.getShortArg())){
+                log.log(Level.SEVERE, "Neither output format was specified, nor was a preview wanted. Use --output <format> to specify the format or -p for a preview");
+                System.exit(1);
+            }
+            
+            if(cmdLine.hasOption(outputArg.getShortArg()))
+                cliOptions.setOutputFormat(cmdLine.getOptionValue(outputArg.getLongArg()));
+            else
+                cliOptions.setOutputFormat("");
 
             cliOptions.setFilePath(filePath);
             cliOptions.setPreviewStatus(cmdLine.hasOption(previewArg.getShortArg()));
