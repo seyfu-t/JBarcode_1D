@@ -6,12 +6,6 @@ This project is a Java reimplementation and extension of [@iyyun](https://github
 
 ## This repo is a work-in-progress and so is this readme file
 
-## Features
-
-- **Gallo Processor**: Detects specific regions in an image.
-- **Soros Processor**: Identifies salient regions in an image.
-- **Yun Processor**: Locates potential barcodes within an image.
-
 ## Supported file formats
 
 Any filetype that is supported by `Imgcodecs.imread(String filepath)` is supported.
@@ -32,7 +26,7 @@ According to the docs of OpenCV 4.9's maven package these are:
 - Radiance HDR - \*.hdr, \*.pic (always supported)
 - Raster and Vector geospatial data supported by GDAL (see the *Note* section)
 
-### Note:
+#### Note:
 
 - The function determines the type of an image by the content, not by the file extension.
 
@@ -58,7 +52,7 @@ According to the docs of OpenCV 4.9's maven package these are:
 - OpenCV 4.x or higher
 
 ## Installation
-
+WIP
 
 
 ### Command Line Interface (CLI)
