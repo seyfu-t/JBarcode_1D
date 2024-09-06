@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1.utils;
+package me.seyfu_t.JBarcode_1D.utils;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Point;

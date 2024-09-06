@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1.cli;
+package me.seyfu_t.JBarcode_1D.cli;
 
 public class CLIOptions {
     private String filePath;

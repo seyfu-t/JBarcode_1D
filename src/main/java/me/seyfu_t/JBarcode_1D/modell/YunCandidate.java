@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1.modell;
+package me.seyfu_t.JBarcode_1D.modell;
 
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
