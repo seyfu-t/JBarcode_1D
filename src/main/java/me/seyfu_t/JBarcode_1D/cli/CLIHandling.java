@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1.cli;
+package me.seyfu_t.JBarcode_1D.cli;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -11,7 +11,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import me.seyfu_t.JBarcode_D1.JBarcode_D1;
+import me.seyfu_t.JBarcode_1D.JBarcode_1D;
 
 public class CLIHandling {
 
@@ -37,7 +37,7 @@ public class CLIHandling {
             CommandLine cmdLine = parser.parse(opts, args);
 
             if (cmdLine.hasOption(helpArg.getShortArg())) {
-                new HelpFormatter().printHelp(JBarcode_D1.PROGRAM_NAME, opts);
+                new HelpFormatter().printHelp(JBarcode_1D.PROGRAM_NAME, opts);
                 System.exit(0);
             }
 

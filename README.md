@@ -1,4 +1,4 @@
-# JBarcode_D1 (WIP)
+# JBarcode_1D (WIP)
 
 ### A Java Reimplementation and Extension of [iyyun/Barcode_1D](https://github.com/iyyun/Barcode_1D)
 
@@ -63,7 +63,7 @@ According to the docs of OpenCV 4.9's maven package these are:
 
 ### Command Line Interface (CLI)
 
-You can also use JBarcode_D1 directly from the command line by running the JAR file.
+You can also use JBarcode_1D directly from the command line by running the JAR file.
 
 ## Usage
 
@@ -72,7 +72,7 @@ You can also use JBarcode_D1 directly from the command line by running the JAR f
 After building the project, you can run it via the command line using the following command:
 
 ```sh
-java -jar target/JBarcode_D1-1.0-SNAPSHOT-jar-with-dependencies.jar --file <image_path> [--preview]
+java -jar target/JBarcode_1D-1.0-SNAPSHOT-jar-with-dependencies.jar --file <image_path> [--preview]
 ```
 
 ### Command Line Options

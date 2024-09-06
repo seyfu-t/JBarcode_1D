@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1.algorithms;
+package me.seyfu_t.JBarcode_1D.algorithms;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,11 +12,11 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
-import me.seyfu_t.JBarcode_D1.modell.YunCandidate;
-import me.seyfu_t.JBarcode_D1.modell.YunLabel;
-import me.seyfu_t.JBarcode_D1.modell.YunOrientation;
-import me.seyfu_t.JBarcode_D1.modell.YunParams;
-import me.seyfu_t.JBarcode_D1.utils.MatUtils;
+import me.seyfu_t.JBarcode_1D.modell.YunCandidate;
+import me.seyfu_t.JBarcode_1D.modell.YunLabel;
+import me.seyfu_t.JBarcode_1D.modell.YunOrientation;
+import me.seyfu_t.JBarcode_1D.modell.YunParams;
+import me.seyfu_t.JBarcode_1D.utils.MatUtils;
 
 public class Yun {
 

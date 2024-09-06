@@ -1,4 +1,4 @@
-package me.seyfu_t.JBarcode_D1;
+package me.seyfu_t.JBarcode_1D;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,27 +18,27 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import me.seyfu_t.JBarcode_D1.algorithms.Gallo;
-import me.seyfu_t.JBarcode_D1.algorithms.Soros;
-import me.seyfu_t.JBarcode_D1.algorithms.Yun;
-import me.seyfu_t.JBarcode_D1.cli.CLIHandling;
-import me.seyfu_t.JBarcode_D1.cli.CLIOptions;
-import me.seyfu_t.JBarcode_D1.modell.YunCandidate;
+import me.seyfu_t.JBarcode_1D.algorithms.Gallo;
+import me.seyfu_t.JBarcode_1D.algorithms.Soros;
+import me.seyfu_t.JBarcode_1D.algorithms.Yun;
+import me.seyfu_t.JBarcode_1D.cli.CLIHandling;
+import me.seyfu_t.JBarcode_1D.cli.CLIOptions;
+import me.seyfu_t.JBarcode_1D.modell.YunCandidate;
 import nu.pattern.OpenCV;
 
-public class JBarcode_D1 {
+public class JBarcode_1D {
 
     static {
         OpenCV.loadLocally();
     }
 
     // private static final Logger log = Logger.getLogger(Main.class.getName());
-    public static final String PROGRAM_NAME = JBarcode_D1.class.getPackageName();
+    public static final String PROGRAM_NAME = JBarcode_1D.class.getPackageName();
 
     // I don't know what this constant really does
     private static final int WIN_SIZE = 20;
 
-    private static final Logger log = Logger.getLogger(JBarcode_D1.class.getName());
+    private static final Logger log = Logger.getLogger(JBarcode_1D.class.getName());
 
     public static void main(String[] args) {
 
