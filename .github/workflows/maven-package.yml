@@ -1,0 +1,30 @@
+name: Publish package to GitHub Packages
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Java environment (Java 22) and authenticate with GitHub Packages
+      - name: Set up Java and authentication for GitHub Packages
+        uses: actions/setup-java@v4
+        with:
+          java-version: '22'
+          distribution: 'temurin'
+          server-id: github  # Matches the server id in pom.xml or default one for GitHub
+          settings-path: ${{ github.workspace }}  # This will automatically add authentication to the Maven settings
+          token: ${{ secrets.GH_TOKEN }}
+
+      # Step 3: Deploy to GitHub Packages
+      - name: Publish to GitHub Packages
+        run: mvn --batch-mode deploy
