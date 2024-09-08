@@ -5,7 +5,7 @@
   <groupId>me.seyfu_t.JBarcode_1D</groupId>
   <artifactId>JBarcode_1D</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-Pre</version>
+  <version>1.0-Pre-1</version>
   <name>JBarcode_1D</name>
   <url>http://maven.apache.org</url>
 
@@ -19,9 +19,13 @@
   <distributionManagement>
     <repository>
       <id>github</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/seyfu-t/JBarcode_1D</url>
+      <name>Github</name>
+      <url>https://maven.pkg.github.com/cal0610/medium-auth-commons</url>
     </repository>
+    <snapshotRepository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/cal0610/medium-auth-commons</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <dependencies>
