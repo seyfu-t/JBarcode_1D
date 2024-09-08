@@ -20,11 +20,11 @@
     <repository>
       <id>github</id>
       <name>Github</name>
-      <url>https://maven.pkg.github.com/cal0610/medium-auth-commons</url>
+      <url>https://maven.pkg.github.com/seyfu-t/JBarcode_1D</url>
     </repository>
     <snapshotRepository>
       <id>github</id>
-      <url>https://maven.pkg.github.com/cal0610/medium-auth-commons</url>
+      <url>https://maven.pkg.github.com/seyfu-t/JBarcode_1D</url>
     </snapshotRepository>
   </distributionManagement>
 
