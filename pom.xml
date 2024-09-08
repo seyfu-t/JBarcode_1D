@@ -2,8 +2,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>me.seyfu_t.JBarcode_1D</groupId>
-  <artifactId>JBarcode_1D</artifactId>
+  <groupId>me.seyfu_t.jbarcode_1d</groupId>
+  <artifactId>jbarcode_1d</artifactId>
   <packaging>jar</packaging>
   <version>1.0-Pre-1</version>
   <name>JBarcode_1D</name>
