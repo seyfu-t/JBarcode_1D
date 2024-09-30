@@ -20,3 +20,4 @@ buildNumber.properties
 
 *.code-workspace
 .vscode/
+.gradle
