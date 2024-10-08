@@ -50,13 +50,21 @@ tasks.withType<Javadoc>() {
     options.encoding = "UTF-8"
 }
 
-tasks.register<Jar>("jarWithDependencies") {
-    archiveClassifier.set("with-dependencies")
+// Task to create a fat JAR that bundles all dependencies
+tasks.register<Jar>("fatJar") {
+    archiveClassifier.set("all") // This will create a file like `jbarcode_1d-1.0-Pre-1-all.jar`
     from(sourceSets.main.get().output)
+
     dependsOn(configurations.runtimeClasspath)
     from({
         configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }
     })
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE // Exclude duplicate files
+
+    manifest {
+        attributes["Main-Class"] = application.mainClass.get()
+    }
 }
 
 application {
