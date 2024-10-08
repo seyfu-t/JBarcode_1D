@@ -35,7 +35,7 @@ public class JBarcode_1D {
     // private static final Logger log = Logger.getLogger(Main.class.getName());
     public static final String PROGRAM_NAME = JBarcode_1D.class.getPackageName();
 
-    // I don't know what this constant really does
+    // I don't know what this constant really does, see Issue #3 on iyyun/Barcode_1D
     private static final int WIN_SIZE = 20;
 
     private static final Logger log = Logger.getLogger(JBarcode_1D.class.getName());
@@ -140,6 +140,32 @@ public class JBarcode_1D {
 
     public static String rectToCSV(String type, Rect rect) {
         return String.format("%s,%d,%d,%d,%d", type, rect.x, rect.y, rect.width, rect.height);
+    }
+
+    public static List<String> detectOverlaps(Optional<Rect> galloRect, Optional<Rect> sorosRect,
+            List<YunCandidate> yunCandidates) {
+        List<String> overlaps = new ArrayList<>();
+
+        // Check overlap between gallo and soros
+        if (galloRect.isPresent() && sorosRect.isPresent() && isOverlapping(galloRect.get(), sorosRect.get())) {
+            overlaps.add("Gallo and Soros overlap");
+        }
+
+        // Check overlaps between gallo and yun candidates
+        for (YunCandidate yun : yunCandidates) {
+            if (yun.isBarcode() && galloRect.isPresent() && isOverlapping(galloRect.get(), yun.getRoi())) {
+                overlaps.add("Gallo and Yun overlap (Orientation: " + yun.getOrientation() + ")");
+            }
+        }
+
+        // Check overlaps between soros and yun candidates
+        for (YunCandidate yun : yunCandidates) {
+            if (yun.isBarcode() && sorosRect.isPresent() && isOverlapping(sorosRect.get(), yun.getRoi())) {
+                overlaps.add("Soros and Yun overlap (Orientation: " + yun.getOrientation() + ")");
+            }
+        }
+
+        return overlaps;
     }
 
     public static String generateJSON(Optional<Rect> galloRect, Optional<Rect> sorosRect,
@@ -263,4 +289,10 @@ public class JBarcode_1D {
     private static void drawRectangle(Mat image, Rect rect, Scalar color) {
         Imgproc.rectangle(image, rect, color, 2);
     }
+
+    private static boolean isOverlapping(Rect r1, Rect r2) {
+        return (r1.x < r2.x + r2.width && r1.x + r1.width > r2.x &&
+                r1.y < r2.y + r2.height && r1.y + r1.height > r2.y);
+    }
+
 }
